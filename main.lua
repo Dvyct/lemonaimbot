@@ -1,9 +1,8 @@
 local localPlayer = game.Players.LocalPlayer
 local camera = game.Workspace.CurrentCamera
 local UIS = game:GetService("UserInputService")
-
-_G.AimbotEnabled = false
-
+local aim = false
+_G.AimbotEnabled = false 
 local function findNearestPlayer()
     local closestPlayer = nil
     local closestDistance = math.huge
@@ -34,7 +33,7 @@ local function findNearestPlayer()
 end
 
 game:GetService("RunService").RenderStepped:Connect(function()
-    if _G.AimbotEnabled then
+    if aim then
         local targetPlayer = findNearestPlayer()
 
         if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("Head") then
@@ -44,3 +43,18 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end
 end)
 
+UIS.InputBegan:Connect(function(input, processed)
+    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
+     if _G.AimbotEnabled == then
+        aim = true
+            end
+    end
+end)
+
+UIS.InputEnded:Connect(function(input, processed)
+    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
+if _G.AimbotEnabled == then
+        aim = false
+    end
+    end
+end)
