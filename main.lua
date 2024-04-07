@@ -1,8 +1,10 @@
 local localPlayer = game.Players.LocalPlayer
 local camera = game.Workspace.CurrentCamera
 local UIS = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
 local aim = false
-_G.AimbotEnabled = false 
+_G.AimbotEnabled = false
+_G.AimbotSensitivity = 0.1
 local function findNearestPlayer()
     local closestPlayer = nil
     local closestDistance = math.huge
@@ -38,23 +40,27 @@ game:GetService("RunService").RenderStepped:Connect(function()
 
         if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("Head") then
             local targetHead = targetPlayer.Character.Head
-            camera.CFrame = CFrame.new(camera.CFrame.Position, targetHead.Position)
+            local targetCFrame = CFrame.new(camera.CFrame.Position, targetHead.Position)
+
+            -- Tween camera to targetCFrame with quad easing and 1 second duration
+            local tweenInfo = TweenInfo.new(_G.AimbotSensitivity, Enum.EasingStyle.Quad)  -- Duration: 1 second, EasingStyle: Quad
+            TweenService:Create(camera, tweenInfo, { CFrame = targetCFrame }):Play()
         end
     end
 end)
 
 UIS.InputBegan:Connect(function(input, processed)
     if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
-     if _G.AimbotEnabled == true then
-        aim = true
-            end
+        if _G.AimbotEnabled == true then
+            aim = true
+        end
     end
 end)
 
 UIS.InputEnded:Connect(function(input, processed)
     if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
-if _G.AimbotEnabled == true then
-        aim = false
-    end
+        if _G.AimbotEnabled == true then
+            aim = false
+        end
     end
 end)
