@@ -43,15 +43,17 @@ game:GetService("RunService").RenderStepped:Connect(function()
             local targetHead = targetPlayer.Character.Head
             local targetPosition = targetHead.Position
 
-            -- Calculate the direction vector towards the target head
-            local direction = (targetPosition - camera.CFrame.Position).unit
+            if _G.AimbotSensitivity > 0 then
+                -- Calculate the new target CFrame based on the sensitivity
+                local targetCFrame = camera.CFrame:Lerp(CFrame.new(camera.CFrame.Position, targetPosition), _G.AimbotSensitivity)
 
-            -- Calculate the new target CFrame based on the sensitivity
-            local targetCFrame = camera.CFrame:Lerp(CFrame.new(camera.CFrame.Position, targetPosition), _G.AimbotSensitivity)
-
-            -- Tween camera to the new targetCFrame
-            local tweenInfo = TweenInfo.new(_G.AimbotSensitivity, Enum.EasingStyle.Quad)
-            TweenService:Create(camera, tweenInfo, { CFrame = targetCFrame }):Play()
+                -- Tween camera to the new targetCFrame
+                local tweenInfo = TweenInfo.new(_G.AimbotSensitivity, Enum.EasingStyle.Quad)
+                TweenService:Create(camera, tweenInfo, { CFrame = targetCFrame }):Play()
+            else
+                -- Set camera CFrame directly to target head position
+                camera.CFrame = CFrame.new(camera.CFrame.Position, targetPosition)
+            end
         end
     end
 end)
