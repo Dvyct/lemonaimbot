@@ -44,14 +44,3 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end
 end)
 
-UIS.InputBegan:Connect(function(input, processed)
-    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
-        _G.AimbotEnabled = true
-    end
-end)
-
-UIS.InputEnded:Connect(function(input, processed)
-    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
-        _G.AimbotEnabled = false
-    end
-end)
