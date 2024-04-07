@@ -6,7 +6,7 @@ local function player()
     
     for i, v in pairs(game:GetService("Players"):GetPlayers()) do
         if v.Name ~= localPlayer.Name then
-            if v.Character and v.Character:FindFirstChild("Head") and v.Character.Humanoid.Health > 0 and v.Character:FindFirstChild("Head") and v.TeamColor ~= localPlayer.TeamColor then
+            if v.Character and v.Character:FindFirstChild("Head") and v.Character.Humanoid.Health > 0 and v.Character:FindFirstChild("Head") then
                 local magnitude = (v.Character.HumanoidRootPart.Position - localPlayer.Character.HumanoidRootPart.Position).magnitude
 
                 if magnitude < dist then
