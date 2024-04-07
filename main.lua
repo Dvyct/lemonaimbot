@@ -45,7 +45,7 @@ end)
 
 UIS.InputBegan:Connect(function(input, processed)
     if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
-     if _G.AimbotEnabled == then
+     if _G.AimbotEnabled == true then
         aim = true
             end
     end
@@ -53,7 +53,7 @@ end)
 
 UIS.InputEnded:Connect(function(input, processed)
     if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
-if _G.AimbotEnabled == then
+if _G.AimbotEnabled == true then
         aim = false
     end
     end
