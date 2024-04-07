@@ -1,7 +1,8 @@
 local localPlayer = game.Players.LocalPlayer
 local camera = game.Workspace.CurrentCamera
 local UIS = game:GetService("UserInputService")
-local aim = false
+
+_G.AimbotEnabled = false
 
 local function findNearestPlayer()
     local closestPlayer = nil
@@ -32,25 +33,25 @@ local function findNearestPlayer()
     return closestPlayer
 end
 
+UIS.InputBegan:Connect(function(input, processed)
+    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
+        _G.AimbotEnabled = true
+    end
+end)
+
+UIS.InputEnded:Connect(function(input, processed)
+    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
+        _G.AimbotEnabled = false
+    end
+end)
+
 game:GetService("RunService").RenderStepped:Connect(function()
-    if aim then
+    if _G.AimbotEnabled then
         local targetPlayer = findNearestPlayer()
 
         if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("Head") then
             local targetHead = targetPlayer.Character.Head
             camera.CFrame = CFrame.new(camera.CFrame.Position, targetHead.Position)
         end
-    end
-end)
-
-UIS.InputBegan:Connect(function(input, processed)
-    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
-        aim = true
-    end
-end)
-
-UIS.InputEnded:Connect(function(input, processed)
-    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
-        aim = false
     end
 end)
