@@ -4,7 +4,7 @@ local UIS = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local aim = false
 _G.AimbotEnabled = true
-_G.AimbotSensitivity = 0.1
+_G.AimbotSensitivity = 0
 
 local function findNearestPlayer()
     local closestPlayer = nil
