@@ -3,8 +3,9 @@ local camera = game.Workspace.CurrentCamera
 local UIS = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local aim = false
-_G.AimbotEnabled = false
+_G.AimbotEnabled = true
 _G.AimbotSensitivity = 0.1
+
 local function findNearestPlayer()
     local closestPlayer = nil
     local closestDistance = math.huge
@@ -40,10 +41,16 @@ game:GetService("RunService").RenderStepped:Connect(function()
 
         if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("Head") then
             local targetHead = targetPlayer.Character.Head
-            local targetCFrame = CFrame.new(camera.CFrame.Position, targetHead.Position)
+            local targetPosition = targetHead.Position
 
-            -- Tween camera to targetCFrame with quad easing and 1 second duration
-            local tweenInfo = TweenInfo.new(_G.AimbotSensitivity, Enum.EasingStyle.Quad)  -- Duration: 1 second, EasingStyle: Quad
+            -- Calculate the direction vector towards the target head
+            local direction = (targetPosition - camera.CFrame.Position).unit
+
+            -- Calculate the new target CFrame based on the sensitivity
+            local targetCFrame = camera.CFrame:Lerp(CFrame.new(camera.CFrame.Position, targetPosition), _G.AimbotSensitivity)
+
+            -- Tween camera to the new targetCFrame
+            local tweenInfo = TweenInfo.new(_G.AimbotSensitivity, Enum.EasingStyle.Quad)
             TweenService:Create(camera, tweenInfo, { CFrame = targetCFrame }):Play()
         end
     end
