@@ -2,6 +2,7 @@ local localPlayer = game.Players.LocalPlayer
 local camera = game.Workspace.CurrentCamera
 local UIS = game:GetService("UserInputService")
 local aim = false
+_G.AimbotEnabled = false
 _G.AimbotPart = "Head"  -- Default aimbot part
 
 local function findNearestPlayer()
@@ -38,8 +39,10 @@ game:GetService("RunService").RenderStepped:Connect(function()
         local targetPlayer = findNearestPlayer()
 
         if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild(_G.AimbotPart) then
+         if _G.AimbotEnabled == true then
             local targetPart = targetPlayer.Character[_G.AimbotPart]
             camera.CFrame = CFrame.new(camera.CFrame.Position, targetPart.Position)
+                end
         end
     end
 end)
