@@ -1,10 +1,7 @@
 local localPlayer = game.Players.LocalPlayer
 local camera = game.Workspace.CurrentCamera
 local UIS = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
 local aim = false
-_G.AimbotEnabled = true
-_G.AimbotSensitivity = 0
 
 local function findNearestPlayer()
     local closestPlayer = nil
@@ -41,35 +38,19 @@ game:GetService("RunService").RenderStepped:Connect(function()
 
         if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("Head") then
             local targetHead = targetPlayer.Character.Head
-            local targetPosition = targetHead.Position
-
-            if _G.AimbotSensitivity > 0 then
-                -- Calculate the new target CFrame based on the sensitivity
-                local targetCFrame = camera.CFrame:Lerp(CFrame.new(camera.CFrame.Position, targetPosition), _G.AimbotSensitivity)
-
-                -- Tween camera to the new targetCFrame
-                local tweenInfo = TweenInfo.new(_G.AimbotSensitivity, Enum.EasingStyle.Quad)
-                TweenService:Create(camera, tweenInfo, { CFrame = targetCFrame }):Play()
-            else
-                -- Set camera CFrame directly to target head position
-                camera.CFrame = CFrame.new(camera.CFrame.Position, targetPosition)
-            end
+            camera.CFrame = CFrame.new(camera.CFrame.Position, targetHead.Position)
         end
     end
 end)
 
 UIS.InputBegan:Connect(function(input, processed)
     if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
-        if _G.AimbotEnabled == true then
-            aim = true
-        end
+        aim = true
     end
 end)
 
 UIS.InputEnded:Connect(function(input, processed)
     if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
-        if _G.AimbotEnabled == true then
-            aim = false
-        end
+        aim = false
     end
 end)
