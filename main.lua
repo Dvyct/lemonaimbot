@@ -2,6 +2,7 @@ local localPlayer = game.Players.LocalPlayer
 local camera = game.Workspace.CurrentCamera
 local UIS = game:GetService("UserInputService")
 local aim = false
+_G.AimbotKey = Enum.Keycode.E
 _G.AimbotEnabled = false
 _G.AimbotPart = "Head"  -- Default aimbot part
 
@@ -59,13 +60,13 @@ game:GetService("RunService").RenderStepped:Connect(function()
 end)
 
 UIS.InputBegan:Connect(function(input, processed)
-    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
+    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == _G.AimbotKey and not processed then
         aim = true
     end
 end)
 
 UIS.InputEnded:Connect(function(input, processed)
-    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.E and not processed then
+    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == _G.AimbotKey and not processed then
         aim = false
     end
 end)
