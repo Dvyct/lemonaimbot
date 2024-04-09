@@ -1,10 +1,12 @@
 local localPlayer = game.Players.LocalPlayer
 local camera = game.Workspace.CurrentCamera
 local UIS = game:GetService("UserInputService")
-local aim = false
+
+-- Aimbot settings
 _G.AimbotKey = Enum.KeyCode.E
 _G.AimbotEnabled = false
 _G.AimbotPart = "Head"  -- Default aimbot part
+_G.StickyAimEnabled = true
 
 -- Function to check if a player is on the same team
 local function isPlayerOnSameTeam(player)
@@ -13,6 +15,9 @@ local function isPlayerOnSameTeam(player)
     end
     return false
 end
+
+local currentTarget = nil
+local aim = false
 
 local function findNearestPlayer()
     local closestPlayer = nil
@@ -48,13 +53,21 @@ end
 
 game:GetService("RunService").RenderStepped:Connect(function()
     if aim then
-        local targetPlayer = findNearestPlayer()
+        local targetPlayer = currentTarget or findNearestPlayer()
 
         if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild(_G.AimbotPart) then
             if _G.AimbotEnabled == true then
                 local targetPart = targetPlayer.Character[_G.AimbotPart]
                 camera.CFrame = CFrame.new(camera.CFrame.Position, targetPart.Position)
+
+                if _G.StickyAimEnabled then
+                    currentTarget = targetPlayer
+                end
+            else
+                currentTarget = nil
             end
+        else
+            currentTarget = nil
         end
     end
 end)
@@ -68,6 +81,6 @@ end)
 UIS.InputEnded:Connect(function(input, processed)
     if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == _G.AimbotKey and not processed then
         aim = false
+        currentTarget = nil  -- Reset the current target when aim key is released
     end
 end)
--- extra commit
