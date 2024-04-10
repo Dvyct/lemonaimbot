@@ -11,7 +11,7 @@
 local localPlayer = game.Players.LocalPlayer
 local camera = game.Workspace.CurrentCamera
 local UIS = game:GetService("UserInputService")
-
+local PlrName = localPlayer.Name
 -- Aimbot settings
 _G.AimbotKey = Enum.KeyCode.E
 _G.AimbotEnabled = false
