@@ -12,6 +12,10 @@ local localPlayer = game.Players.LocalPlayer
 local camera = game.Workspace.CurrentCamera
 local UIS = game:GetService("UserInputService")
 local PlrName = localPlayer.Name
+if PlrName == "JohnnyGamerYAY" then
+print("Congrats you made lemon!")
+end
+print(PlrName .. "is using lemonbot!")
 -- Aimbot settings
 _G.AimbotKey = Enum.KeyCode.E
 _G.AimbotEnabled = false
